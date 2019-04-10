@@ -1,6 +1,8 @@
 import { Helper, StErrors } from "../Common";
 import { Transform } from "../st";
 
+var _instance;
+
 export class Conditional {
     constructor(st) {
         this.st = st;
@@ -54,7 +56,7 @@ export class Conditional {
             return true;
         }
         // Condition 4, in case there's more than two items, everything between the first and the last item should be #elseif
-        for (const templateIndex = 1; templateIndex < template.length - 1; templateIndex++) {
+        for (let templateIndex = 1; templateIndex < template.length - 1; templateIndex++) {
             const templateItem = template[templateIndex];
             for (const templateKey in templateItem) {
                 func = Helper.tokenize(templateKey);
@@ -101,10 +103,10 @@ export class Conditional {
                 if (res === `{{${expression}}}`)
                     // if there was at least one item that was not evaluatable,
                     // we halt parsing and throw an error;
-                    throw new StErrors.fillout();
+                    throw StErrors.fillout;
                 if (res)
                     // run the current one and return
-                    return this.st.run(item[key], data);
+                    return ts.run(item[key], data);
                 // res was falsy. Ignore this branch and go on to the next item
                 continue;
             }
@@ -113,10 +115,16 @@ export class Conditional {
             //  1. there were no non-evaluatable expressions
             //  2. Yet all preceding expressions evaluated to falsy value
             //  Therefore we run this branch
-            return this.st.run(item[key], data);
+            return ts.run(item[key], data);
         }
         // if you've reached this point, it means nothing matched.
         // so return null
         return null;
     }
+
+    static getInstance() {
+        return _instance;
+    }
 }
+
+_instance = new Conditional();

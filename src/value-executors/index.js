@@ -1,5 +1,5 @@
 import { Template } from "./Template";
-import { Include } from "./Include";
+import { Include } from './Include';
 
 /**
  * Array of executors for values in templates.

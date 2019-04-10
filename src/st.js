@@ -1,9 +1,9 @@
 import { executors as valueExecutors } from "./value-executors";
 import { executors as arrayExecutors } from "./array-executors";
-import { executors as functionExecutors } from "./function-executors";
-import { Helper } from "./Common";
+import { executors as keyExecutors } from "./key-executors";
+import { Helper, StErrors } from "./Common";
 
-export class Transform {
+class Transform {
   constructor(select, st) {
     this.select = select;
     this.st = st;
@@ -11,65 +11,73 @@ export class Transform {
 
   run(template, data) {
     let result;
-    let fun;
-
+ 
     if (typeof template === "string") {
-      // Leaf node, so call TRANSFORM.fillout()
       if (!Helper.is_template(template)) return template;
 
-      for (const executor of valueExecutors)
-        if (executor.fits(template))
+      for (const executor of valueExecutors){
+        if (executor.getInstance().fits(template)){
           return executor.getInstance().execute(template, data, this);
+        }
+      }
 
       try {
-        return Helper.fillout(data, template);
+        return Helper.fillout(template, data);
       } catch (error) {
         return `${error.message} -- ${template}`;
       }
     }
 
     if (Helper.is_array(template)) {
-      if (Conditional.is(template)) {
-        result = Conditional.run(template, data);
-      } else {
-        result = [];
-        for (var i = 0; i < template.length; i++) {
-          var item = TRANSFORM.run(template[i], data);
-          if (item) {
-            // only push when the result is not null
-            // null could mean #if clauses where nothing matched => In this case instead of rendering 'null', should just skip it completely
-            // Todo : Distinguish between #if arrays and ordinary arrays, and return null for ordinary arrays
-            result.push(item);
-          }
+      for (const executor of arrayExecutors){
+        if (executor.getInstance().fits(template)){
+          return executor.getInstance().execute(template, data, this);
         }
       }
+
+      return template.map(item => this.run(item, data));
     } else if (Object.prototype.toString.call(template) === "[object Object]") {
       // template is an object
       result = {};
 
-      // Handling #include
-      // This needs to precede everything else since it's meant to be overwritten
-      // in case of collision
-      var include_object_re = /\{\{([ ]*#include)[ ]*(.*)\}\}/;
-      var include_keys = Object.keys(template).filter(function(key) {
-        return include_object_re.test(key);
-      });
-
-      if (include_keys.length > 0) {
-        // find the first key with #include
-        fun = TRANSFORM.tokenize(include_keys[0]);
-        if (fun.expression) {
-          // if #include has arguments, evaluate it before attaching
-          result = TRANSFORM.fillout(
-            template[include_keys[0]],
-            "{{" + fun.expression + "}}",
-            true
-          );
-        } else {
-          // no argument, simply attach the child
-          result = template[include_keys[0]];
+      for (const key in template){
+        if (!Helper.is_template(key)) {
+          result[key] = this.run(template[key], data);
+          continue;
         }
+
+        for(const executor of keyExecutors) {
+          if (executor.getInstance().fits(template)) {
+            return executor.getInstance().execute(template, data, this);
+          }
+        }
+
+        result[key] = `${StErrors.format.message} -- ${key}`;
       }
+
+      // // Handling #include
+      // // This needs to precede everything else since it's meant to be overwritten
+      // // in case of collision
+      // var include_object_re = /\{\{([ ]*#include)[ ]*(.*)\}\}/;
+      // var include_keys = Object.keys(template).filter(function(key) {
+      //   return include_object_re.test(key);
+      // });
+
+      // if (include_keys.length > 0) {
+      //   // find the first key with #include
+      //   fun = TRANSFORM.tokenize(include_keys[0]);
+      //   if (fun.expression) {
+      //     // if #include has arguments, evaluate it before attaching
+      //     result = TRANSFORM.fillout(
+      //       template[include_keys[0]],
+      //       "{{" + fun.expression + "}}",
+      //       true
+      //     );
+      //   } else {
+      //     // no argument, simply attach the child
+      //     result = template[include_keys[0]];
+      //   }
+      // }
 
       // for (var key in template) {
       //   // Checking to see if the key contains template..
@@ -343,7 +351,7 @@ export class Transform {
   }
 }
 
-export class Select {
+class Select {
   constructor(st) {
     this.st = st;
   }
@@ -641,10 +649,10 @@ export class Select {
           this.$selectedRoot = {};
         }
       }
-      Object.keys(json).forEach(function(key) {
+      for(const key in json) {
         this.$val[key] = json[key];
-        this.$selected_root[key] = json[key];
-      });
+        this.$selectedRoot[key] = json[key];
+      }
     } else {
       this.$val = json;
       this.$selectedRoot = json;
@@ -658,10 +666,11 @@ export class Select {
 /**
  * Select-Transform class
  */
-export class ST {
-  templates = {};
-
-  constructor() {}
+module.exports.ST = class ST {
+  
+  constructor() {
+    this.templates = {};
+  }
 
   /**
    * Adds subtemplates that should be used into the class.
@@ -690,7 +699,7 @@ export class ST {
     // no need for separate template resolution step
     // select the template with selector and transform data
     const res = new Select(this)
-      .select(template, selector, serialized)
+      .select(template, undefined, serialized)
       .transform(data, serialized)
       .root();
     if (serialized)
@@ -733,111 +742,111 @@ export class ST {
 
 
 
-(function() {
-  var $context = this;
-  var root; // root context
-  var Helper = {
-    is_template: function(str) {},
-    is_array: function(item) {},
-    resolve: function(o, path, new_val) {}
-  };
-  var Conditional = {
-    run: function(template, data) {},
-    is: function(template) {}
-  };
-  var TRANSFORM = {
-    memory: {},
-    templates: {}, // Modified by Jakub Mifek
-    transform: function(template, data, injection, serialized) {},
-    tokenize: function(str) {},
-    run: function(template, data) {},
-    fillout: function(data, template, raw) {},
-    _fillout: function(options) {}
-  };
-  var SELECT = {
-    // current: currently accessed object
-    // path: the path leading to this item
-    // filter: The filter function to decide whether to select or not
-    $val: null,
-    $selected: [],
-    $injected: [],
-    $progress: null,
-    exec: function(current, path, filter) {},
-    inject: function(obj, serialized) {},
-    // returns the object itself
-    select: function(obj, filter, serialized) {},
-    transformWith: function(obj, serialized) {},
-    transform: function(obj, serialized) {},
+// (function() {
+//   var $context = this;
+//   var root; // root context
+//   var Helper = {
+//     is_template: function(str) {},
+//     is_array: function(item) {},
+//     resolve: function(o, path, new_val) {}
+//   };
+//   var Conditional = {
+//     run: function(template, data) {},
+//     is: function(template) {}
+//   };
+//   var TRANSFORM = {
+//     memory: {},
+//     templates: {}, // Modified by Jakub Mifek
+//     transform: function(template, data, injection, serialized) {},
+//     tokenize: function(str) {},
+//     run: function(template, data) {},
+//     fillout: function(data, template, raw) {},
+//     _fillout: function(options) {}
+//   };
+//   var SELECT = {
+//     // current: currently accessed object
+//     // path: the path leading to this item
+//     // filter: The filter function to decide whether to select or not
+//     $val: null,
+//     $selected: [],
+//     $injected: [],
+//     $progress: null,
+//     exec: function(current, path, filter) {},
+//     inject: function(obj, serialized) {},
+//     // returns the object itself
+//     select: function(obj, filter, serialized) {},
+//     transformWith: function(obj, serialized) {},
+//     transform: function(obj, serialized) {},
 
-    // Terminal methods
-    objects: function() {},
-    keys: function() {},
-    paths: function() {},
-    values: function() {},
-    root: function() {}
-  };
+//     // Terminal methods
+//     objects: function() {},
+//     keys: function() {},
+//     paths: function() {},
+//     values: function() {},
+//     root: function() {}
+//   };
 
-  // Native JSON object override
-  var _stringify = JSON.stringify;
-  JSON.stringify = function(val, replacer, spaces) {
-    var t = typeof val;
-    if (["number", "string", "boolean"].indexOf(t) !== -1) {
-      return _stringify(val, replacer, spaces);
-    }
-    if (!replacer) {
-      return _stringify(
-        val,
-        function(key, val) {
-          if (
-            SELECT.$injected &&
-            SELECT.$injected.length > 0 &&
-            SELECT.$injected.indexOf(key) !== -1
-          ) {
-            return undefined;
-          }
-          if (key === "$root" || key === "$index") {
-            return undefined;
-          }
-          if (key in TRANSFORM.memory) {
-            return undefined;
-          }
-          if (typeof val === "function") {
-            return "(" + val.toString() + ")";
-          } else {
-            return val;
-          }
-        },
-        spaces
-      );
-    } else {
-      return _stringify(val, replacer, spaces);
-    }
-  };
+//   // Native JSON object override
+//   var _stringify = JSON.stringify;
+//   JSON.stringify = function(val, replacer, spaces) {
+//     var t = typeof val;
+//     if (["number", "string", "boolean"].indexOf(t) !== -1) {
+//       return _stringify(val, replacer, spaces);
+//     }
+//     if (!replacer) {
+//       return _stringify(
+//         val,
+//         function(key, val) {
+//           if (
+//             SELECT.$injected &&
+//             SELECT.$injected.length > 0 &&
+//             SELECT.$injected.indexOf(key) !== -1
+//           ) {
+//             return undefined;
+//           }
+//           if (key === "$root" || key === "$index") {
+//             return undefined;
+//           }
+//           if (key in TRANSFORM.memory) {
+//             return undefined;
+//           }
+//           if (typeof val === "function") {
+//             return "(" + val.toString() + ")";
+//           } else {
+//             return val;
+//           }
+//         },
+//         spaces
+//       );
+//     } else {
+//       return _stringify(val, replacer, spaces);
+//     }
+//   };
 
-  var setTemplates = function(templates) {};
+//   var setTemplates = function(templates) {};
 
-  // Export
-  if (typeof exports !== "undefined") {
-    var x = {
-      TRANSFORM: TRANSFORM,
-      SELECT: SELECT,
-      Conditional: Conditional,
-      Helper: Helper,
-      inject: SELECT.inject,
-      select: SELECT.select,
-      transform: TRANSFORM.transform,
-      setTemplates: setTemplates // Modified by Jakub Mifek
-    };
-    if (typeof module !== "undefined" && module.exports) {
-      exports = module.exports = x;
-    }
-    exports = x;
-  } else {
-    $context.ST = {
-      select: SELECT.select,
-      inject: SELECT.inject,
-      transform: TRANSFORM.transform,
-      setTemplates: setTemplates // Modified by Jakub Mifek
-    };
-  }
-})();
+//   // Export
+//   if (typeof exports !== "undefined") {
+//     var x = {
+//       TRANSFORM: TRANSFORM,
+//       SELECT: SELECT,
+//       Conditional: Conditional,
+//       Helper: Helper,
+//       inject: SELECT.inject,
+//       select: SELECT.select,
+//       transform: TRANSFORM.transform,
+//       setTemplates: setTemplates // Modified by Jakub Mifek
+//     };
+//     if (typeof module !== "undefined" && module.exports) {
+//       exports = module.exports = x;
+//     }
+//     exports = x;
+//   } else {
+//     $context.ST = {
+//       select: SELECT.select,
+//       inject: SELECT.inject,
+//       transform: TRANSFORM.transform,
+//       setTemplates: setTemplates // Modified by Jakub Mifek
+//     };
+//   }
+// })();

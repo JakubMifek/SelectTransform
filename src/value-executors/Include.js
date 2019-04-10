@@ -1,5 +1,7 @@
 import { Helper } from "../Common";
 
+var _instance;
+
 export class Include {
   constructor() {}
 
@@ -21,6 +23,7 @@ export class Include {
     return template;
   }
 
-  static _instance = new Include();
   static getInstance() { return _instance; }
 }
+
+_instance = new Include()

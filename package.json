@@ -1,0 +1,36 @@
+{
+  "name": "selectransform",
+  "version": "1.0.0",
+  "description": "See https://github.com/JakubMifek/SelectTransform",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf lib; babel --presets es2015 -d lib/ src",
+    "test": "npm run build; node lib/tests/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakubMifek/SelectTransform.git"
+  },
+  "keywords": [
+    "stjs",
+    "select-transform",
+    "selectransform",
+    "library",
+    "javascript",
+    "json",
+    "transform",
+    "select",
+    "mapping",
+    "template"
+  ],
+  "author": "Jakub Mifek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JakubMifek/SelectTransform/issues"
+  },
+  "homepage": "https://github.com/JakubMifek/SelectTransform#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}

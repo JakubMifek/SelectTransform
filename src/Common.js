@@ -11,8 +11,8 @@ class StError extends Error {
   }  
 
 export var StErrors = {
-    format: StError("Wrong format of input template"),
-    fillout: StError("Expression contained unresolvable expressions")
+    format: new StError("Wrong format of input template"),
+    fillout: new StError("Expression contained unresolvable expressions")
   };  
 
 /**
@@ -72,7 +72,7 @@ export class Helper {
         let func;
         if (tokens.length > 0) {
             if (tokens[0][0] !== "#")
-                throw new StErrors.format();
+                throw StErrors.format;
             func = tokens.shift();
             // => func: '#each' or '#if'
             // => tokens: ['$jason.items', '&&', '$jason.items.length', '>', '0']
@@ -80,7 +80,7 @@ export class Helper {
             // => expression: '$jason.items && $jason.items.length > 0'
             return { name: func, expression: expression };
         }
-        throw new StErrors.format();
+        throw StErrors.format;
     }
 
     /**
@@ -145,7 +145,7 @@ export class Helper {
                     // Ordinary simple expression that
                     func = Function(`with(this) {return (${slot})}`).bind(data);
                 }
-                const evaluated = func();
+                let evaluated = func();
 
                 // TODO: Do we need to do this?
                 // delete data.$root; // remove $root now that the parsing is over
@@ -194,7 +194,7 @@ export class Helper {
             return template;
         }
         catch (err) {
-            throw new StErrors.fillout();
+            throw StErrors.fillout;
         }
     }
 }
