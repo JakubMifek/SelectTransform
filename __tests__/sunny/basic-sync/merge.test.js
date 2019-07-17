@@ -9,19 +9,22 @@ const data = {
 };
 
 const template = {
-  name: '{{ name }}',
-  surname: '{{ surname }}',
-  age: '{{ age }}',
-  test: {
-    '{{ #concat }}': ['{{ name }}', '{{ surname }}', '{{ age }}'],
-  },
+  '{{ #merge }}': [
+    {
+      name: '{{ name }}',
+      surname: '{{ surname }}',
+    },
+    {
+      surname: '{{ surname }}',
+      age: '{{ age }}',
+    },
+  ],
 };
 
 const expected = {
   name: 'Jakub',
   surname: 'Mifek',
   age: 24,
-  test: ['Jakub', 'Mifek', 24],
 };
 
 test('transform is correct', done => {

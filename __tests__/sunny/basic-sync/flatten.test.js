@@ -6,6 +6,7 @@ const data = {
   name: 'Jakub',
   surname: 'Mifek',
   age: 24,
+  items: [12, 13, [14, 15, [15.3, 15.6]], 16, ['seventeen', 'eighteen']],
 };
 
 const template = {
@@ -13,7 +14,7 @@ const template = {
   surname: '{{ surname }}',
   age: '{{ age }}',
   test: {
-    '{{ #concat }}': ['{{ name }}', '{{ surname }}', '{{ age }}'],
+    '{{ #flatten }}': '{{ items }}',
   },
 };
 
@@ -21,12 +22,12 @@ const expected = {
   name: 'Jakub',
   surname: 'Mifek',
   age: 24,
-  test: ['Jakub', 'Mifek', 24],
+  test: [12, 13, 14, 15, [15.3, 15.6], 16, 'seventeen', 'eighteen'],
 };
 
 test('transform is correct', done => {
-  st.transform(template, data).then(result => {
-    expect(result).toEqual(expected);
-    done();
-  });
+  const result = st.transformSync(template, data);
+
+  expect(result).toEqual(expected);
+  done();
 });

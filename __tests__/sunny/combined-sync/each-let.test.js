@@ -22,14 +22,31 @@ const data = {
   ],
 };
 
-const subtemplate = '{{ name + " " + surname }}';
+const subtemplate = {
+  '{{ #let }}': [
+    {
+      wholeName: '{{ name + " " + surname }}',
+    },
+    {
+      name: '{{ wholeName }}',
+      friendOf: '{{ userName }}',
+    },
+  ],
+};
 
 const template = {
   name: '{{ name }}',
   surname: '{{ surname }}',
   age: '{{ age }}',
   friendList: {
-    '{{ #each friends }}': '{{ #template subtemplate }}',
+    '{{ #let }}': [
+      {
+        userName: '{{ name + " " + surname }}',
+      },
+      {
+        '{{ #each friends }}': '{{ #template subtemplate }}',
+      },
+    ],
   },
 };
 
@@ -37,7 +54,11 @@ const expected = {
   name: 'Jakub',
   surname: 'Mifek',
   age: 24,
-  friendList: ['Michal Mozik', 'Marian Baca', 'Antonin Malik'],
+  friendList: [
+    { name: 'Michal Mozik', friendOf: 'Jakub Mifek' },
+    { name: 'Marian Baca', friendOf: 'Jakub Mifek' },
+    { name: 'Antonin Malik', friendOf: 'Jakub Mifek' },
+  ],
 };
 
 test('transform is correct', done => {

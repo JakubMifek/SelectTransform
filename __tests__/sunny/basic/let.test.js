@@ -6,6 +6,11 @@ const data = {
   name: 'Jakub',
   surname: 'Mifek',
   age: 24,
+  item: {
+    name: 'item',
+    quantity: 2,
+    price: 20,
+  },
 };
 
 const template = {
@@ -13,7 +18,15 @@ const template = {
   surname: '{{ surname }}',
   age: '{{ age }}',
   test: {
-    '{{ #concat }}': ['{{ name }}', '{{ surname }}', '{{ age }}'],
+    '{{ #let }}': [
+      {
+        wholePrice: '{{ item.quantity * item.price }}',
+      },
+      {
+        name: '{{ item.quantity + " " + item.name + "s" }}',
+        price: '{{ wholePrice }}',
+      },
+    ],
   },
 };
 
@@ -21,7 +34,10 @@ const expected = {
   name: 'Jakub',
   surname: 'Mifek',
   age: 24,
-  test: ['Jakub', 'Mifek', 24],
+  test: {
+    name: '2 items',
+    price: 40,
+  },
 };
 
 test('transform is correct', done => {

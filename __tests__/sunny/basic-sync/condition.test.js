@@ -9,24 +9,25 @@ const data = {
 };
 
 const template = {
-  name: '{{ name }}',
+  name: [
+    { '{{ #if name === "Jakub" }}': 'Kuba' },
+    { '{{ #else }}': '{{ name }}' },
+  ],
   surname: '{{ surname }}',
   age: '{{ age }}',
-  test: {
-    '{{ #concat }}': ['{{ name }}', '{{ surname }}', '{{ age }}'],
-  },
+  test: 'test',
 };
 
 const expected = {
-  name: 'Jakub',
+  name: 'Kuba',
   surname: 'Mifek',
   age: 24,
-  test: ['Jakub', 'Mifek', 24],
+  test: 'test',
 };
 
 test('transform is correct', done => {
-  st.transform(template, data).then(result => {
-    expect(result).toEqual(expected);
-    done();
-  });
+  const result = st.transformSync(template, data);
+
+  expect(result).toEqual(expected);
+  done();
 });

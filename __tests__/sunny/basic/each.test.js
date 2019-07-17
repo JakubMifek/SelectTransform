@@ -22,14 +22,12 @@ const data = {
   ],
 };
 
-const subtemplate = '{{ name + " " + surname }}';
-
 const template = {
   name: '{{ name }}',
   surname: '{{ surname }}',
   age: '{{ age }}',
   friendList: {
-    '{{ #each friends }}': '{{ #template subtemplate }}',
+    '{{ #each friends }}': '{{ name + " " + surname }}',
   },
 };
 
@@ -41,8 +39,8 @@ const expected = {
 };
 
 test('transform is correct', done => {
-  const result = st.addTemplates({ subtemplate }).transformSync(template, data);
-
-  expect(result).toEqual(expected);
-  done();
+  st.transform(template, data).then(result => {
+    expect(result).toEqual(expected);
+    done();
+  });
 });

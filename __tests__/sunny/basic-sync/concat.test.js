@@ -25,8 +25,8 @@ const expected = {
 };
 
 test('transform is correct', done => {
-  st.transform(template, data).then(result => {
-    expect(result).toEqual(expected);
-    done();
-  });
+  const result = st.transformSync(template, data);
+
+  expect(result).toEqual(expected);
+  done();
 });

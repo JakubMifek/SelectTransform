@@ -41,8 +41,13 @@ const expected = {
 };
 
 test('transform is correct', done => {
-  const result = st.addTemplates({ subtemplate }).transformSync(template, data);
-
-  expect(result).toEqual(expected);
-  done();
+  st.addTemplates({ subtemplate })
+    .transform(template, data)
+    .then(result => {
+      expect(Object.keys(result).length).toEqual(Object.keys(expected).length);
+      for (const k of Object.keys(result)) {
+        expect(result[k]).toEqual(expected[k]);
+      }
+      done();
+    });
 });

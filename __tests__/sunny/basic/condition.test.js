@@ -9,19 +9,20 @@ const data = {
 };
 
 const template = {
-  name: '{{ name }}',
+  name: [
+    { '{{ #if name === "Jakub" }}': 'Kuba' },
+    { '{{ #else }}': '{{ name }}' },
+  ],
   surname: '{{ surname }}',
   age: '{{ age }}',
-  test: {
-    '{{ #concat }}': ['{{ name }}', '{{ surname }}', '{{ age }}'],
-  },
+  test: 'test',
 };
 
 const expected = {
-  name: 'Jakub',
   surname: 'Mifek',
   age: 24,
-  test: ['Jakub', 'Mifek', 24],
+  test: 'test',
+  name: 'Kuba',
 };
 
 test('transform is correct', done => {
