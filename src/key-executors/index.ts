@@ -5,6 +5,7 @@ import { Each } from './each';
 import { Flatten } from './flatten';
 import { KeyExecutor } from './key-executor';
 import { Let } from './let';
+import { Lets } from './lets';
 import { Merge } from './merge';
 import { Optional } from './optional';
 
@@ -16,6 +17,7 @@ export const executors: KeyExecutor[] = [
   new Each(),
   new Flatten(),
   new Let(),
+  new Lets(),
   new Merge(),
   new Optional(),
 ];
