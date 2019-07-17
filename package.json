@@ -1,6 +1,6 @@
 {
   "name": "selecttransform",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -40,9 +40,8 @@
     "jest": "^24.0.0",
     "tslint": "^5.15.0",
     "tslint-config-airbnb-base": "^0.3.0",
-    "typescript": "^3.4.3"
-  },
-  "dependencies": {
+    "typescript": "^3.4.3",
     "ts-jest": "^24.0.2"
-  }
+  },
+  "dependencies": {}
 }
