@@ -1,10 +1,7 @@
 {
   "name": "selecttransform",
-  "version": "1.0.3",
-  "main": "index.js",
-  "directories": {
-    "bin": "dist"
-  },
+  "version": "1.0.4",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JakubMifek/SelectTransform.git"
