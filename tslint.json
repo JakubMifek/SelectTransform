@@ -1,0 +1,12 @@
+{
+  "extends": "tslint-config-airbnb-base",
+  "rules": {
+    "no-magic-numbers": false
+  },
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**",
+      "**/*.d.ts"
+    ]
+  }
+}

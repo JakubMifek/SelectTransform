@@ -1,0 +1,13 @@
+{
+    "git.ignoreLimitWarning": true,
+    "editor.insertSpaces": true,
+    "workbench.editor.tabSizing": "fit",
+    "editor.autoIndent": true,
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "editor.rulers": [
+        80
+    ],
+}
