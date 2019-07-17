@@ -32,11 +32,17 @@
     "test": "jest"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/preset-typescript": "^7.3.3",
     "@types/node": "^11.13.4",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.0.0",
     "tslint": "^5.15.0",
     "tslint-config-airbnb-base": "^0.3.0",
-    "typescript": "^3.4.3",
-    "jest": "^24.0.0"
+    "typescript": "^3.4.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ts-jest": "^24.0.2"
+  }
 }
