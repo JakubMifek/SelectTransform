@@ -106,6 +106,20 @@ export class Select {
     (Array.prototype as AnyObject).$root = data;
     (Boolean.prototype as AnyObject).$root = data;
 
+    if (typeof data === 'object') {
+      (data as AnyObject).$root = data;
+    }
+
+    (String.prototype as AnyObject).$this = data;
+    (Number.prototype as AnyObject).$this = data;
+    (Function.prototype as AnyObject).$this = data;
+    (Array.prototype as AnyObject).$this = data;
+    (Boolean.prototype as AnyObject).$this = data;
+
+    if (typeof data === 'object') {
+      (data as AnyObject).$this = data;
+    }
+
     if (this.$selected && this.$selected.length > 0) {
       this.$selected
         .sort(
@@ -127,11 +141,25 @@ export class Select {
       this.$selectedRoot = this.$templateRoot;
     }
 
+    if (typeof data === 'object') {
+      (data as AnyObject).$root = undefined;
+    }
+
     delete (String.prototype as AnyObject).$root;
     delete (Number.prototype as AnyObject).$root;
     delete (Function.prototype as AnyObject).$root;
     delete (Array.prototype as AnyObject).$root;
     delete (Boolean.prototype as AnyObject).$root;
+
+    if (typeof data === 'object') {
+      (data as AnyObject).$this = undefined;
+    }
+
+    delete (String.prototype as AnyObject).$this;
+    delete (Number.prototype as AnyObject).$this;
+    delete (Function.prototype as AnyObject).$this;
+    delete (Array.prototype as AnyObject).$this;
+    delete (Boolean.prototype as AnyObject).$this;
 
     return this;
   }
@@ -162,11 +190,25 @@ export class Select {
     // the $templateRoot is $selectedRoot
     this.$templateRoot = this.$selectedRoot;
 
+    if (typeof data === 'object') {
+      (data as AnyObject).$root = data;
+    }
+
     (String.prototype as AnyObject).$root = data;
     (Number.prototype as AnyObject).$root = data;
     (Function.prototype as AnyObject).$root = data;
     (Array.prototype as AnyObject).$root = data;
     (Boolean.prototype as AnyObject).$root = data;
+
+    if (typeof data === 'object') {
+      (data as AnyObject).$this = data;
+    }
+
+    (String.prototype as AnyObject).$this = data;
+    (Number.prototype as AnyObject).$this = data;
+    (Function.prototype as AnyObject).$this = data;
+    (Array.prototype as AnyObject).$this = data;
+    (Boolean.prototype as AnyObject).$this = data;
 
     if (this.$selected && this.$selected.length > 0) {
       const sorted = this.$selected.sort(
@@ -212,11 +254,25 @@ export class Select {
       this.$selectedRoot = this.$templateRoot;
     }
 
+    if (typeof data === 'object') {
+      (data as AnyObject).$root = undefined;
+    }
+
     delete (String.prototype as AnyObject).$root;
     delete (Number.prototype as AnyObject).$root;
     delete (Function.prototype as AnyObject).$root;
     delete (Array.prototype as AnyObject).$root;
     delete (Boolean.prototype as AnyObject).$root;
+
+    if (typeof data === 'object') {
+      (data as AnyObject).$this = undefined;
+    }
+
+    delete (String.prototype as AnyObject).$this;
+    delete (Number.prototype as AnyObject).$this;
+    delete (Function.prototype as AnyObject).$this;
+    delete (Array.prototype as AnyObject).$this;
+    delete (Boolean.prototype as AnyObject).$this;
 
     return this;
   }
@@ -242,11 +298,26 @@ export class Select {
 
     // Setting $root
     this.$templateRoot = template;
-    (String.prototype as AnyObject).$root = this.$selectedRoot;
-    (Number.prototype as AnyObject).$root = this.$selectedRoot;
-    (Function.prototype as AnyObject).$root = this.$selectedRoot;
-    (Array.prototype as AnyObject).$root = this.$selectedRoot;
-    (Boolean.prototype as AnyObject).$root = this.$selectedRoot;
+
+    if (typeof template === 'object') {
+      (template as AnyObject).$root = this.$templateRoot;
+    }
+
+    (String.prototype as AnyObject).$root = this.$templateRoot;
+    (Number.prototype as AnyObject).$root = this.$templateRoot;
+    (Function.prototype as AnyObject).$root = this.$templateRoot;
+    (Array.prototype as AnyObject).$root = this.$templateRoot;
+    (Boolean.prototype as AnyObject).$root = this.$templateRoot;
+
+    if (typeof template === 'object') {
+      (template as AnyObject).$this = this.$templateRoot;
+    }
+
+    (String.prototype as AnyObject).$this = this.$templateRoot;
+    (Number.prototype as AnyObject).$this = this.$templateRoot;
+    (Function.prototype as AnyObject).$this = this.$templateRoot;
+    (Array.prototype as AnyObject).$this = this.$templateRoot;
+    (Boolean.prototype as AnyObject).$this = this.$templateRoot;
 
     // generate new $selected_root
     if (this.$selected && this.$selected.length > 0) {
@@ -269,11 +340,27 @@ export class Select {
       // apply the result to root
       this.$selectedRoot = Helper.resolve(this.$selectedRoot, '', parsedObject);
     }
+
+    if (typeof template === 'object') {
+      (template as AnyObject).$root = undefined;
+    }
+
     delete (String.prototype as AnyObject).$root;
     delete (Number.prototype as AnyObject).$root;
     delete (Function.prototype as AnyObject).$root;
     delete (Array.prototype as AnyObject).$root;
     delete (Boolean.prototype as AnyObject).$root;
+
+    if (typeof template === 'object') {
+      (template as AnyObject).$this = undefined;
+    }
+
+    delete (String.prototype as AnyObject).$this;
+    delete (Number.prototype as AnyObject).$this;
+    delete (Function.prototype as AnyObject).$this;
+    delete (Array.prototype as AnyObject).$this;
+    delete (Boolean.prototype as AnyObject).$this;
+
     return this;
   }
 

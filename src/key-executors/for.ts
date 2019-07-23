@@ -52,6 +52,7 @@ export class For implements KeyExecutor {
           if (typeof d[k] === 'object') {
             d[k]['$key'] = k;
             d[k]['$this'] = d[k];
+            d[k]['$root'] = data['$root'];
 
             // Copy in the memory
             for (const k2 in t.memory) {
@@ -69,6 +70,7 @@ export class For implements KeyExecutor {
           if (typeof d[k] === 'object') {
             delete d[k]['$key'];
             delete d[k]['$this'];
+            delete d[k]['$root'];
 
             // Copy in the memory
             // tslint:disable-next-line: forin
@@ -120,6 +122,7 @@ export class For implements KeyExecutor {
       if (typeof dataArray[k] === 'object') {
         dataArray[k]['$key'] = k;
         dataArray[k]['$this'] = dataArray[k];
+        dataArray[k]['$root'] = data['$root'];
 
         // Copy in the memory
         for (const k2 in ts.memory) {
@@ -148,6 +151,7 @@ export class For implements KeyExecutor {
       if (typeof dataArray[k] === 'object') {
         delete dataArray[k]['$key'];
         delete dataArray[k]['$this'];
+        delete dataArray[k]['$root'];
 
         // Copy in the memory
         // tslint:disable-next-line: forin
