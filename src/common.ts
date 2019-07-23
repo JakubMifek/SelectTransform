@@ -226,7 +226,9 @@ export class Helper {
     } catch (err) {
       if (keepTemplate) return template;
 
-      throw ST_ERRORS.fillout;
+      const e = ST_ERRORS.fillout;
+      e.message += ` -- ${err.message}`;
+      throw e;
     }
   }
 }
