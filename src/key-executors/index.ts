@@ -9,6 +9,7 @@ import { Lets } from './lets';
 import { Merge } from './merge';
 import { Optional } from './optional';
 import { For } from './for';
+import { Unwrap } from './unwrap';
 
 /**
  * Array of executors for functions in templates.
@@ -22,4 +23,5 @@ export const executors: KeyExecutor[] = [
   new Lets(),
   new Merge(),
   new Optional(),
+  new Unwrap(),
 ];
