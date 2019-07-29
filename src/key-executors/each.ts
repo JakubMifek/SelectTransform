@@ -15,7 +15,7 @@ export class Each implements KeyExecutor {
   fits(template: string): boolean {
     return (
       typeof template === 'string' &&
-      /^\s*\{\{\s*#each\s*[^\s]+\s*\}\}\s*$/g.test(template.toLowerCase())
+      /^\s*\{\{\s*#each\s+.+\s*\}\}\s*$/g.test(template.toLowerCase())
     );
   }
 

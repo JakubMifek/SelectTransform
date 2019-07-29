@@ -15,7 +15,7 @@ export class For implements KeyExecutor {
   fits(template: string): boolean {
     return (
       typeof template === 'string' &&
-      /^\s*\{\{\s*#for\s+[^\s]+\s*\}\}\s*$/g.test(template.toLowerCase())
+      /^\s*\{\{\s*#for\s+.+\s*\}\}\s*$/g.test(template.toLowerCase())
     );
   }
 
