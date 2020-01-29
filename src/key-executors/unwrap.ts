@@ -15,7 +15,7 @@ export class Unwrap implements KeyExecutor {
   fits(template: string): boolean {
     return (
       typeof template === 'string' &&
-      /^\s*\{\{\s*#unwrap\s*\}\}\s*$/g.test(template.toLowerCase())
+      /^\s*\{\{\s*#unwrap\s*[^\s]*\s*\}\}\s*$/g.test(template.toLowerCase())
     );
   }
 
@@ -28,9 +28,7 @@ export class Unwrap implements KeyExecutor {
   ): DataObject {
     if (typeof template[key] !== 'object') {
       const err = ST_ERRORS.format;
-      err.message += ` - Wrong ${
-        Unwrap.name
-      } format - expected an object as the value.`;
+      err.message += ` - Wrong ${Unwrap.name} format - expected an object as the value.`;
       throw err;
     }
 
@@ -63,9 +61,7 @@ export class Unwrap implements KeyExecutor {
   ): Promise<DataObject> {
     if (typeof template[key] !== 'object') {
       const err = ST_ERRORS.format;
-      err.message += ` - Wrong ${
-        Unwrap.name
-      } format - expected an object as the value.`;
+      err.message += ` - Wrong ${Unwrap.name} format - expected an object as the value.`;
       throw err;
     }
 
