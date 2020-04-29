@@ -1,6 +1,5 @@
-import { Helper, ST_ERRORS, Tokens } from '../common';
+import { DataObject, Helper, ST_ERRORS, Tokens, Transform } from '../internal';
 import { ArrayExecutor } from './array-executor';
-import { DataObject, Transform } from '../transform';
 
 export class Conditional implements ArrayExecutor {
   private name: string;

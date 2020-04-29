@@ -1,4 +1,4 @@
-import { DataObject } from './transform';
+import { DataObject } from './internal';
 
 class StError extends Error {
   /**

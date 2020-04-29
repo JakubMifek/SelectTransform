@@ -29,8 +29,10 @@
   "scripts": {
     "lint": "tslint -c './tslint.json' './src/**/*.ts'",
     "clean": "rm -rf *.tgz dist",
-    "build": "npm run clean && tsc --outDir dist",
+    "build": "npm run clean && tsc --outDir dist && npm run browsify",
+    "browsify": "browserify browser.js > st.js",
     "prepare": "npm run build",
+    "pretest": "npm run build",
     "test": "jest"
   },
   "devDependencies": {
@@ -40,10 +42,13 @@
     "@types/node": "^11.13.4",
     "babel-jest": "^24.8.0",
     "jest": "^24.0.0",
+    "prettier": "^2.0.5",
     "ts-jest": "^24.0.2",
     "tslint": "^5.18.0",
     "tslint-config-airbnb-base": "^0.3.0",
     "typescript": "^3.4.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "tsify": "^4.0.1"
+  }
 }

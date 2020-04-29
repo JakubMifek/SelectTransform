@@ -1,9 +1,12 @@
-import { executors as valueExecutors } from './value-executors';
-import { executors as arrayExecutors } from './array-executors';
-import { executors as keyExecutors } from './key-executors';
-import { Helper, ST_ERRORS } from './common';
-import { SelectTransform } from './st';
-import { Select } from './select';
+import {
+  arrayExecutors,
+  Helper,
+  keyExecutors,
+  Select,
+  SelectTransform,
+  ST_ERRORS,
+  valueExecutors,
+} from './internal';
 
 export type DataObject = string | Array<any> | object;
 export type AnyObject = { [index: string]: any };
@@ -81,7 +84,7 @@ export class Transform {
         }
       }
 
-      return (template as Array<any>).map(item => this.runSync(item, data));
+      return (template as Array<any>).map((item) => this.runSync(item, data));
     }
 
     if (Object.prototype.toString.call(template) === '[object Object]') {
@@ -183,7 +186,9 @@ export class Transform {
       }
 
       return await Promise.all(
-        (template as Array<any>).map(async item => await this.run(item, data)),
+        (template as Array<any>).map(
+          async (item) => await this.run(item, data),
+        ),
       );
     }
 
@@ -199,7 +204,7 @@ export class Transform {
 
         promises.push(
           // tslint:disable-next-line: ter-arrow-parens
-          new Promise(async res => {
+          new Promise(async (res) => {
             try {
               if (!Helper.isTemplate(key)) {
                 result[key] = await this.run(template[key], data);

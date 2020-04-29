@@ -1,6 +1,5 @@
-import { Helper, ST_ERRORS } from '../common';
+import { DataObject, Helper, ST_ERRORS, Transform } from '../internal';
 import { KeyExecutor } from './key-executor';
-import { DataObject, Transform } from '../transform';
 
 export class Concat implements KeyExecutor {
   private name: string;
@@ -28,9 +27,7 @@ export class Concat implements KeyExecutor {
   ): DataObject {
     if (!Helper.isArray(template[key])) {
       const err = ST_ERRORS.format;
-      err.message += ` - Wrong ${
-        Concat.name
-      } format - expected an array as the value.`;
+      err.message += ` - Wrong ${Concat.name} format - expected an array as the value.`;
       throw err;
     }
 
@@ -50,9 +47,7 @@ export class Concat implements KeyExecutor {
   ): Promise<DataObject> {
     if (!Helper.isArray(template[key])) {
       const err = ST_ERRORS.format;
-      err.message += ` - Wrong ${
-        Concat.name
-      } format - expected an array as the value.`;
+      err.message += ` - Wrong ${Concat.name} format - expected an array as the value.`;
       throw err;
     }
 

@@ -1,6 +1,5 @@
-import { Helper } from '../common';
+import { DataObject, Helper, Transform } from '../internal';
 import { KeyExecutor } from './key-executor';
-import { DataObject, Transform } from '../transform';
 
 export class Optional implements KeyExecutor {
   private name: string;

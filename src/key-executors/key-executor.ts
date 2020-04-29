@@ -1,4 +1,4 @@
-import { DataObject, Transform, AnyObject } from '../transform';
+import { DataObject, Transform } from '../internal';
 
 export interface KeyExecutor {
   getName(): string;

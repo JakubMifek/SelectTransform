@@ -1,4 +1,4 @@
-import { Select } from './select';
+import { Select } from './internal';
 
 export type Templates = { [index: string]: object };
 
@@ -62,9 +62,11 @@ export class SelectTransform {
   ): Promise<any> {
     // no need for separate template resolution step
     // select the template with selector and transform data
-    const res = (await new Select(this, true)
-      .select(template, undefined, serialized)
-      .transform(data, serialized)).root();
+    const res = (
+      await new Select(this, true)
+        .select(template, undefined, serialized)
+        .transform(data, serialized)
+    ).root();
 
     if (serialized) {
       // needs to return stringified version

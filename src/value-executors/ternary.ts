@@ -1,6 +1,5 @@
-import { Helper } from '../common';
+import { DataObject, Helper, Transform } from '../internal';
 import { ValueExecutor } from './value-executor';
-import { Transform, DataObject } from '../transform';
 
 export class Ternary implements ValueExecutor {
   private name: string;

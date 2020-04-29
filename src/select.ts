@@ -1,6 +1,10 @@
-import { Helper } from './common';
-import { Transform, DataObject, AnyObject } from './transform';
-import { SelectTransform } from './st';
+import {
+  AnyObject,
+  DataObject,
+  Helper,
+  SelectTransform,
+  Transform,
+} from './internal';
 
 export type SelectItem = {
   path: string;
@@ -28,7 +32,7 @@ export class Select {
   values(): DataObject[] {
     this.$progress = null;
     if (this.$selected) {
-      return this.$selected.map(item => item.value);
+      return this.$selected.map((item) => item.value);
     }
     return Object.values(this.$selectedRoot);
   }
@@ -37,19 +41,19 @@ export class Select {
     this.$progress = null;
 
     if (this.$selected) {
-      return this.$selected.map(item => item.path);
+      return this.$selected.map((item) => item.path);
     }
 
     if (Array.isArray(this.$selectedRoot)) {
       return Object.keys(this.$selectedRoot).map(
-        item =>
+        (item) =>
           // key is integer
           `[${item}]`,
       );
     }
 
     return Object.keys(this.$selectedRoot).map(
-      item =>
+      (item) =>
         // key is string
         `[${item}]`,
     );
@@ -58,11 +62,11 @@ export class Select {
   keys(): (string | number)[] {
     this.$progress = null;
     if (this.$selected) {
-      return this.$selected.map(item => item.key);
+      return this.$selected.map((item) => item.key);
     }
 
     if (Array.isArray(this.$selectedRoot)) {
-      return Object.keys(this.$selectedRoot).map(key => parseInt(key, 0));
+      return Object.keys(this.$selectedRoot).map((key) => parseInt(key, 0));
     }
 
     return Object.keys(this.$selectedRoot);
@@ -71,7 +75,7 @@ export class Select {
   objects(): DataObject[] {
     this.$progress = null;
     if (this.$selected) {
-      return this.$selected.map(item => item.object);
+      return this.$selected.map((item) => item.object);
     }
     return [this.$selectedRoot as object];
   }
@@ -129,7 +133,7 @@ export class Select {
             // TODO: may need to look into edge cases
             b.path.length - a.path.length,
         )
-        .forEach(selection => this.transformSelectedItem(selection, data));
+        .forEach((selection) => this.transformSelectedItem(selection, data));
       this.$selected.sort((a, b) => a.index - b.index);
     } else {
       const parsedObject = new Transform(this, this.st, this.sync).runSync(
@@ -328,7 +332,7 @@ export class Select {
             // TODO: may need to look into edge cases
             b.path.length - a.path.length,
         )
-        .forEach(selection =>
+        .forEach((selection) =>
           this.transformSelectedItemWith(selection, template),
         );
       this.$selected.sort((a, b) => a.index - b.index);

@@ -1,7 +1,7 @@
-import { Helper, ST_ERRORS } from '../common';
-import { AnyObject, DataObject, Transform } from '../transform';
+import { DataObject, Helper, ST_ERRORS, Transform } from '../internal';
+import { KeyExecutor } from './key-executor';
 
-export class Merge {
+export class Merge implements KeyExecutor {
   private name: string;
   constructor() {
     this.name = Merge.name;
@@ -27,9 +27,7 @@ export class Merge {
   ) {
     if (!Helper.isArray(template[key])) {
       const err = ST_ERRORS.format;
-      err.message += ` - Wrong ${
-        Merge.name
-      } format - expected an array as the value.`;
+      err.message += ` - Wrong ${Merge.name} format - expected an array as the value.`;
       throw err;
     }
 
@@ -65,9 +63,7 @@ export class Merge {
   ): Promise<DataObject> {
     if (!Helper.isArray(template[key])) {
       const err = ST_ERRORS.format;
-      err.message += ` - Wrong ${
-        Merge.name
-      } format - expected an array as the value.`;
+      err.message += ` - Wrong ${Merge.name} format - expected an array as the value.`;
       throw err;
     }
 

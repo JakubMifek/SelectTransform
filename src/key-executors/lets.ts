@@ -1,6 +1,11 @@
-import { Helper, ST_ERRORS } from '../common';
+import {
+  AnyObject,
+  DataObject,
+  Helper,
+  ST_ERRORS,
+  Transform,
+} from '../internal';
 import { KeyExecutor } from './key-executor';
-import { Transform, DataObject, AnyObject } from '../transform';
 
 export class Lets implements KeyExecutor {
   private name: string;
@@ -31,9 +36,7 @@ export class Lets implements KeyExecutor {
     // Check the format
     if (!Helper.isArray(template[key]) || template[key].length !== 2) {
       const err = ST_ERRORS.format;
-      err.message += ` - Wrong ${
-        Lets.name
-      } format - expected an array with two elements.`;
+      err.message += ` - Wrong ${Lets.name} format - expected an array with two elements.`;
       throw err;
     }
 
@@ -84,9 +87,7 @@ export class Lets implements KeyExecutor {
     // Check the format
     if (!Helper.isArray(template[key]) || template[key].length !== 2) {
       const err = ST_ERRORS.format;
-      err.message += ` - Wrong ${
-        Lets.name
-      } format - expected an array with two elements.`;
+      err.message += ` - Wrong ${Lets.name} format - expected an array with two elements.`;
       throw err;
     }
 

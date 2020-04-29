@@ -1,6 +1,11 @@
-import { Helper, ST_ERRORS } from '../common';
+import {
+  AnyObject,
+  DataObject,
+  Helper,
+  ST_ERRORS,
+  Transform,
+} from '../internal';
 import { KeyExecutor } from './key-executor';
-import { DataObject, Transform, AnyObject } from '../transform';
 
 export class For implements KeyExecutor {
   private name: string;
@@ -34,9 +39,7 @@ export class For implements KeyExecutor {
     // Ideally newData should be an array since it was prefixed by #each
     if (!dataArray) {
       const err = ST_ERRORS.data;
-      err.message += ` - Wrong ${
-        For.name
-      } data - expected an array as the iterator.`;
+      err.message += ` - Wrong ${For.name} data - expected an array as the iterator.`;
       throw err;
     }
 
@@ -45,7 +48,7 @@ export class For implements KeyExecutor {
     for (const k in d) {
       promises.push(
         // tslint:disable-next-line: ter-arrow-parens
-        new Promise(async res => {
+        new Promise(async (res) => {
           const t = ts.copy();
 
           // temporarily set $index and $this
@@ -110,9 +113,7 @@ export class For implements KeyExecutor {
     // Ideally newData should be an array since it was prefixed by #each
     if (!dataArray) {
       const err = ST_ERRORS.data;
-      err.message += ` - Wrong ${
-        For.name
-      } data - expected an array as the iterator.`;
+      err.message += ` - Wrong ${For.name} data - expected an array as the iterator.`;
       throw err;
     }
 

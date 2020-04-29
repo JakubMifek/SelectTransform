@@ -1,4 +1,4 @@
-import { DataObject, Transform } from '../transform';
+import { DataObject, Transform } from '../internal';
 
 export interface ValueExecutor {
   getName(): string;

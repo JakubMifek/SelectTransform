@@ -1,6 +1,5 @@
-import { Helper, ST_ERRORS } from '../common';
+import { DataObject, Helper, ST_ERRORS, Transform } from '../internal';
 import { KeyExecutor } from './key-executor';
-import { DataObject, Transform } from '../transform';
 
 export class Unwrap implements KeyExecutor {
   private name: string;
