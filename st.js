@@ -1850,39 +1850,43 @@ var Select = /** @class */ (function () {
         if (typeof data === 'object') {
             data.$this = data;
         }
-        if (this.$selected && this.$selected.length > 0) {
-            this.$selected
-                .sort(function (a, b) {
-                // sort by path length, so that deeper level items will be replaced
-                // first
-                // TODO: may need to look into edge cases
-                return b.path.length - a.path.length;
-            })
-                .forEach(function (selection) { return _this.transformSelectedItem(selection, data); });
-            this.$selected.sort(function (a, b) { return a.index - b.index; });
+        try {
+            if (this.$selected && this.$selected.length > 0) {
+                this.$selected
+                    .sort(function (a, b) {
+                    // sort by path length, so that deeper level items will be replaced
+                    // first
+                    // TODO: may need to look into edge cases
+                    return b.path.length - a.path.length;
+                })
+                    .forEach(function (selection) { return _this.transformSelectedItem(selection, data); });
+                this.$selected.sort(function (a, b) { return a.index - b.index; });
+            }
+            else {
+                var parsedObject = new internal_1.Transform(this, this.st, this.sync).runSync(this.$selectedRoot, data);
+                // apply the result to root
+                this.$templateRoot = internal_1.Helper.resolve(this.$templateRoot, '', parsedObject);
+                this.$selectedRoot = this.$templateRoot;
+            }
         }
-        else {
-            var parsedObject = new internal_1.Transform(this, this.st, this.sync).runSync(this.$selectedRoot, data);
-            // apply the result to root
-            this.$templateRoot = internal_1.Helper.resolve(this.$templateRoot, '', parsedObject);
-            this.$selectedRoot = this.$templateRoot;
+        finally {
+            if (typeof data === 'object') {
+                data.$root = undefined;
+            }
+            delete String.prototype.$root;
+            delete Number.prototype.$root;
+            delete Function.prototype.$root;
+            delete Array.prototype.$root;
+            delete Boolean.prototype.$root;
+            if (typeof data === 'object') {
+                data.$this = undefined;
+            }
+            delete String.prototype.$this;
+            delete Number.prototype.$this;
+            delete Function.prototype.$this;
+            delete Array.prototype.$this;
+            delete Boolean.prototype.$this;
         }
-        if (typeof data === 'object') {
-            data.$root = undefined;
-        }
-        delete String.prototype.$root;
-        delete Number.prototype.$root;
-        delete Function.prototype.$root;
-        delete Array.prototype.$root;
-        delete Boolean.prototype.$root;
-        if (typeof data === 'object') {
-            data.$this = undefined;
-        }
-        delete String.prototype.$this;
-        delete Number.prototype.$this;
-        delete Function.prototype.$this;
-        delete Array.prototype.$this;
-        delete Boolean.prototype.$this;
         return this;
     };
     Select.prototype.transform = function (obj, serialized) {
@@ -2024,40 +2028,44 @@ var Select = /** @class */ (function () {
         Function.prototype.$this = this.$templateRoot;
         Array.prototype.$this = this.$templateRoot;
         Boolean.prototype.$this = this.$templateRoot;
-        // generate new $selected_root
-        if (this.$selected && this.$selected.length > 0) {
-            this.$selected
-                .sort(function (a, b) {
-                // sort by path length, so that deeper level items will be replaced first
-                // TODO: may need to look into edge cases
-                return b.path.length - a.path.length;
-            })
-                .forEach(function (selection) {
-                return _this.transformSelectedItemWith(selection, template);
-            });
-            this.$selected.sort(function (a, b) { return a.index - b.index; });
+        try {
+            // generate new $selected_root
+            if (this.$selected && this.$selected.length > 0) {
+                this.$selected
+                    .sort(function (a, b) {
+                    // sort by path length, so that deeper level items will be replaced first
+                    // TODO: may need to look into edge cases
+                    return b.path.length - a.path.length;
+                })
+                    .forEach(function (selection) {
+                    return _this.transformSelectedItemWith(selection, template);
+                });
+                this.$selected.sort(function (a, b) { return a.index - b.index; });
+            }
+            else {
+                var parsedObject = new internal_1.Transform(this, this.st, this.sync).runSync(template, this.$selectedRoot);
+                // apply the result to root
+                this.$selectedRoot = internal_1.Helper.resolve(this.$selectedRoot, '', parsedObject);
+            }
         }
-        else {
-            var parsedObject = new internal_1.Transform(this, this.st, this.sync).runSync(template, this.$selectedRoot);
-            // apply the result to root
-            this.$selectedRoot = internal_1.Helper.resolve(this.$selectedRoot, '', parsedObject);
+        finally {
+            if (typeof template === 'object') {
+                template.$root = undefined;
+            }
+            delete String.prototype.$root;
+            delete Number.prototype.$root;
+            delete Function.prototype.$root;
+            delete Array.prototype.$root;
+            delete Boolean.prototype.$root;
+            if (typeof template === 'object') {
+                template.$this = undefined;
+            }
+            delete String.prototype.$this;
+            delete Number.prototype.$this;
+            delete Function.prototype.$this;
+            delete Array.prototype.$this;
+            delete Boolean.prototype.$this;
         }
-        if (typeof template === 'object') {
-            template.$root = undefined;
-        }
-        delete String.prototype.$root;
-        delete Number.prototype.$root;
-        delete Function.prototype.$root;
-        delete Array.prototype.$root;
-        delete Boolean.prototype.$root;
-        if (typeof template === 'object') {
-            template.$this = undefined;
-        }
-        delete String.prototype.$this;
-        delete Number.prototype.$this;
-        delete Function.prototype.$this;
-        delete Array.prototype.$this;
-        delete Boolean.prototype.$this;
         return this;
     };
     Select.prototype.transformWith = function (obj, serialized) {
