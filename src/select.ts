@@ -123,47 +123,52 @@ export class Select {
     if (typeof data === 'object') {
       (data as AnyObject).$this = data;
     }
+    try {
+      if (this.$selected && this.$selected.length > 0) {
+        this.$selected
+          .sort(
+            (a, b) =>
+              // sort by path length, so that deeper level items will be replaced
+              // first
+              // TODO: may need to look into edge cases
+              b.path.length - a.path.length,
+          )
+          .forEach((selection) => this.transformSelectedItem(selection, data));
+        this.$selected.sort((a, b) => a.index - b.index);
+      } else {
+        const parsedObject = new Transform(this, this.st, this.sync).runSync(
+          this.$selectedRoot,
+          data,
+        );
+        // apply the result to root
+        this.$templateRoot = Helper.resolve(
+          this.$templateRoot,
+          '',
+          parsedObject,
+        );
+        this.$selectedRoot = this.$templateRoot;
+      }
+    } finally {
+      if (typeof data === 'object') {
+        (data as AnyObject).$root = undefined;
+      }
 
-    if (this.$selected && this.$selected.length > 0) {
-      this.$selected
-        .sort(
-          (a, b) =>
-            // sort by path length, so that deeper level items will be replaced
-            // first
-            // TODO: may need to look into edge cases
-            b.path.length - a.path.length,
-        )
-        .forEach((selection) => this.transformSelectedItem(selection, data));
-      this.$selected.sort((a, b) => a.index - b.index);
-    } else {
-      const parsedObject = new Transform(this, this.st, this.sync).runSync(
-        this.$selectedRoot,
-        data,
-      );
-      // apply the result to root
-      this.$templateRoot = Helper.resolve(this.$templateRoot, '', parsedObject);
-      this.$selectedRoot = this.$templateRoot;
+      delete (String.prototype as AnyObject).$root;
+      delete (Number.prototype as AnyObject).$root;
+      delete (Function.prototype as AnyObject).$root;
+      delete (Array.prototype as AnyObject).$root;
+      delete (Boolean.prototype as AnyObject).$root;
+
+      if (typeof data === 'object') {
+        (data as AnyObject).$this = undefined;
+      }
+
+      delete (String.prototype as AnyObject).$this;
+      delete (Number.prototype as AnyObject).$this;
+      delete (Function.prototype as AnyObject).$this;
+      delete (Array.prototype as AnyObject).$this;
+      delete (Boolean.prototype as AnyObject).$this;
     }
-
-    if (typeof data === 'object') {
-      (data as AnyObject).$root = undefined;
-    }
-
-    delete (String.prototype as AnyObject).$root;
-    delete (Number.prototype as AnyObject).$root;
-    delete (Function.prototype as AnyObject).$root;
-    delete (Array.prototype as AnyObject).$root;
-    delete (Boolean.prototype as AnyObject).$root;
-
-    if (typeof data === 'object') {
-      (data as AnyObject).$this = undefined;
-    }
-
-    delete (String.prototype as AnyObject).$this;
-    delete (Number.prototype as AnyObject).$this;
-    delete (Function.prototype as AnyObject).$this;
-    delete (Array.prototype as AnyObject).$this;
-    delete (Boolean.prototype as AnyObject).$this;
 
     return this;
   }
@@ -322,49 +327,53 @@ export class Select {
     (Function.prototype as AnyObject).$this = this.$templateRoot;
     (Array.prototype as AnyObject).$this = this.$templateRoot;
     (Boolean.prototype as AnyObject).$this = this.$templateRoot;
-
-    // generate new $selected_root
-    if (this.$selected && this.$selected.length > 0) {
-      this.$selected
-        .sort(
-          (a, b) =>
-            // sort by path length, so that deeper level items will be replaced first
-            // TODO: may need to look into edge cases
-            b.path.length - a.path.length,
-        )
-        .forEach((selection) =>
-          this.transformSelectedItemWith(selection, template),
+    try {
+      // generate new $selected_root
+      if (this.$selected && this.$selected.length > 0) {
+        this.$selected
+          .sort(
+            (a, b) =>
+              // sort by path length, so that deeper level items will be replaced first
+              // TODO: may need to look into edge cases
+              b.path.length - a.path.length,
+          )
+          .forEach((selection) =>
+            this.transformSelectedItemWith(selection, template),
+          );
+        this.$selected.sort((a, b) => a.index - b.index);
+      } else {
+        const parsedObject = new Transform(this, this.st, this.sync).runSync(
+          template,
+          this.$selectedRoot,
         );
-      this.$selected.sort((a, b) => a.index - b.index);
-    } else {
-      const parsedObject = new Transform(this, this.st, this.sync).runSync(
-        template,
-        this.$selectedRoot,
-      );
-      // apply the result to root
-      this.$selectedRoot = Helper.resolve(this.$selectedRoot, '', parsedObject);
+        // apply the result to root
+        this.$selectedRoot = Helper.resolve(
+          this.$selectedRoot,
+          '',
+          parsedObject,
+        );
+      }
+    } finally {
+      if (typeof template === 'object') {
+        (template as AnyObject).$root = undefined;
+      }
+
+      delete (String.prototype as AnyObject).$root;
+      delete (Number.prototype as AnyObject).$root;
+      delete (Function.prototype as AnyObject).$root;
+      delete (Array.prototype as AnyObject).$root;
+      delete (Boolean.prototype as AnyObject).$root;
+
+      if (typeof template === 'object') {
+        (template as AnyObject).$this = undefined;
+      }
+
+      delete (String.prototype as AnyObject).$this;
+      delete (Number.prototype as AnyObject).$this;
+      delete (Function.prototype as AnyObject).$this;
+      delete (Array.prototype as AnyObject).$this;
+      delete (Boolean.prototype as AnyObject).$this;
     }
-
-    if (typeof template === 'object') {
-      (template as AnyObject).$root = undefined;
-    }
-
-    delete (String.prototype as AnyObject).$root;
-    delete (Number.prototype as AnyObject).$root;
-    delete (Function.prototype as AnyObject).$root;
-    delete (Array.prototype as AnyObject).$root;
-    delete (Boolean.prototype as AnyObject).$root;
-
-    if (typeof template === 'object') {
-      (template as AnyObject).$this = undefined;
-    }
-
-    delete (String.prototype as AnyObject).$this;
-    delete (Number.prototype as AnyObject).$this;
-    delete (Function.prototype as AnyObject).$this;
-    delete (Array.prototype as AnyObject).$this;
-    delete (Boolean.prototype as AnyObject).$this;
-
     return this;
   }
 
