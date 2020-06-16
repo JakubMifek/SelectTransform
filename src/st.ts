@@ -35,7 +35,7 @@ export class SelectTransform {
     return this;
   }
 
-  getTemplate(name: string): any {
+  getTemplate(name: string): object {
     return this.templates[name];
   }
 
@@ -80,14 +80,12 @@ export class SelectTransform {
     template: object,
     selector?: Function,
     serialized: boolean = false,
-  ): any {
-    const res = new Select(this, true)
-      .select(template, selector, serialized)
-      .root();
+  ): Select | string {
+    const res = new Select(this, true).select(template, selector, serialized);
 
     if (serialized) {
       // needs to return stringified version
-      return JSON.stringify(res);
+      return JSON.stringify(res.root());
     }
 
     return res;
@@ -97,7 +95,7 @@ export class SelectTransform {
     template: object,
     selector?: Function,
     serialized: boolean = false,
-  ): Promise<any> {
+  ): Promise<Select | string> {
     return this.selectSync(template, selector, serialized);
   }
 }

@@ -50,6 +50,7 @@ export class Conditional implements ArrayExecutor {
     let func: Tokens;
     for (const key in first) {
       if (typeof first[key] === 'function') continue;
+      if (!Helper.isFunction(key)) return false;
       func = Helper.tokenize(key);
       if (
         !func ||
@@ -76,6 +77,7 @@ export class Conditional implements ArrayExecutor {
       const templateItem = template[templateIndex];
       // tslint:disable-next-line: forin
       for (const templateKey in templateItem) {
+        if (!Helper.isFunction(templateKey)) return false;
         func = Helper.tokenize(templateKey);
         if (func.name.toLowerCase() !== '#elseif') {
           return false;
@@ -89,6 +91,7 @@ export class Conditional implements ArrayExecutor {
     const last = template[template.length - 1];
     for (const lastKey in last) {
       if (typeof last[lastKey] === 'function') continue;
+      if (!Helper.isFunction(lastKey)) return false;
       func = Helper.tokenize(lastKey);
       if (['#else', '#elseif'].indexOf(func.name.toLowerCase()) === -1) {
         return false;
@@ -120,6 +123,7 @@ export class Conditional implements ArrayExecutor {
     for (const item of template) {
       // assuming that there's only a single kv pair for each item
       const key = Object.keys(item)[0];
+
       const func = Helper.tokenize(key);
       if (func.name === '#if' || func.name === '#elseif') {
         const expression = func.expression;

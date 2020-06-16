@@ -90,6 +90,8 @@ var Conditional = /** @class */ (function () {
         for (var key in first) {
             if (typeof first[key] === 'function')
                 continue;
+            if (!internal_1.Helper.isFunction(key))
+                return false;
             func = internal_1.Helper.tokenize(key);
             if (!func ||
                 !func.name ||
@@ -110,6 +112,8 @@ var Conditional = /** @class */ (function () {
             var templateItem = template[templateIndex];
             // tslint:disable-next-line: forin
             for (var templateKey in templateItem) {
+                if (!internal_1.Helper.isFunction(templateKey))
+                    return false;
                 func = internal_1.Helper.tokenize(templateKey);
                 if (func.name.toLowerCase() !== '#elseif') {
                     return false;
@@ -124,6 +128,8 @@ var Conditional = /** @class */ (function () {
         for (var lastKey in last) {
             if (typeof last[lastKey] === 'function')
                 continue;
+            if (!internal_1.Helper.isFunction(lastKey))
+                return false;
             func = internal_1.Helper.tokenize(lastKey);
             if (['#else', '#elseif'].indexOf(func.name.toLowerCase()) === -1) {
                 return false;
@@ -285,6 +291,15 @@ exports.ST_ERRORS = {
 var Helper = /** @class */ (function () {
     function Helper() {
     }
+    /**
+     * Checks whether the given string is a function ( {{ #name expression? }} ).
+     *
+     * @param {string} str String to check
+     */
+    Helper.isFunction = function (str) {
+        var re = /\{\{\s*#([^\s]+)(\s+([^\s]+))?\s*\}\}/g;
+        return re.test(str);
+    };
     /**
      * Checks whether the given string is a template ( {{ expression }} ).
      *
@@ -2364,12 +2379,10 @@ var SelectTransform = /** @class */ (function () {
     };
     SelectTransform.prototype.selectSync = function (template, selector, serialized) {
         if (serialized === void 0) { serialized = false; }
-        var res = new internal_1.Select(this, true)
-            .select(template, selector, serialized)
-            .root();
+        var res = new internal_1.Select(this, true).select(template, selector, serialized);
         if (serialized) {
             // needs to return stringified version
-            return JSON.stringify(res);
+            return JSON.stringify(res.root());
         }
         return res;
     };

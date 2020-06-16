@@ -27,6 +27,15 @@ export const ST_ERRORS = {
  */
 export class Helper {
   /**
+   * Checks whether the given string is a function ( {{ #name expression? }} ).
+   *
+   * @param {string} str String to check
+   */
+  static isFunction(str: string): boolean {
+    const re = /\{\{\s*#([^\s]+)(\s+([^\s]+))?\s*\}\}/g;
+    return re.test(str);
+  }
+  /**
    * Checks whether the given string is a template ( {{ expression }} ).
    *
    * @param {string} str String to check
