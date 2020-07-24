@@ -32,7 +32,7 @@ export class Helper {
    * @param {string} str String to check
    */
   static isFunction(str: string): boolean {
-    const re = /\{\{\s*#([^\s]+)(\s+([^\s]+))?\s*\}\}/g;
+    const re = /\{\{\s*#([^\s]+)(\s+([^\s]+))*\s*\}\}/g;
     return re.test(str);
   }
   /**
