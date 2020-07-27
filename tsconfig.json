@@ -1,5 +1,8 @@
 {
   "$schema": "http://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "declaration": true
+  },
   "include": [
     "src", "tests"
   ],
