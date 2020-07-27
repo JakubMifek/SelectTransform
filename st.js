@@ -297,7 +297,7 @@ var Helper = /** @class */ (function () {
      * @param {string} str String to check
      */
     Helper.isFunction = function (str) {
-        var re = /\{\{\s*#([^\s]+)(\s+([^\s]+))?\s*\}\}/g;
+        var re = /\{\{\s*#([^\s]+)(\s+([^\s]+))*\s*\}\}/g;
         return re.test(str);
     };
     /**
