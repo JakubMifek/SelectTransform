@@ -212,7 +212,7 @@ export class Transform {
 
         promises.push(
           // tslint:disable-next-line: ter-arrow-parens
-          new Promise(async (res) => {
+          new Promise<void>(async (res) => {
             try {
               if (!Helper.isTemplate(key)) {
                 result[key] = await this.run(template[key], data);

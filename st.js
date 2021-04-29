@@ -3,13 +3,18 @@ const d = require('./dist');
 var ST = new d.SelectTransform();
 Object.assign($context, { ST });
 
-},{"./dist":5}],2:[function(require,module,exports){
+},{"./dist":6}],2:[function(require,module,exports){
+"use strict";
+exports.__esModule = true;
+
+},{}],3:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -41,6 +46,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Conditional = void 0;
 var internal_1 = require("../internal");
 var Conditional = /** @class */ (function () {
     function Conditional() {
@@ -243,31 +249,46 @@ var Conditional = /** @class */ (function () {
 }());
 exports.Conditional = Conditional;
 
-},{"../internal":6}],3:[function(require,module,exports){
+},{"../internal":7}],4:[function(require,module,exports){
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 exports.__esModule = true;
+exports.executors = void 0;
+__exportStar(require("./array-executor"), exports);
 var conditional_1 = require("./conditional");
 /**
  * Array of executors for arrays in templates.
  */
 exports.executors = [new conditional_1.Conditional()];
 
-},{"./conditional":2}],4:[function(require,module,exports){
+},{"./array-executor":2,"./conditional":3}],5:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 exports.__esModule = true;
+exports.Helper = exports.ST_ERRORS = void 0;
 var StError = /** @class */ (function (_super) {
     __extends(StError, _super);
     /**
@@ -499,36 +520,53 @@ var Helper = /** @class */ (function () {
 }());
 exports.Helper = Helper;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
 exports.__esModule = true;
+exports.SelectTransform = void 0;
 var internal_1 = require("./internal");
-exports.SelectTransform = internal_1.SelectTransform;
+__createBinding(exports, internal_1, "SelectTransform");
 
-},{"./internal":6}],6:[function(require,module,exports){
+},{"./internal":7}],7:[function(require,module,exports){
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 exports.__esModule = true;
+exports.valueExecutors = exports.keyExecutors = exports.arrayExecutors = void 0;
 var ae = require("./array-executors");
 var ke = require("./key-executors");
 var ve = require("./value-executors");
 exports.arrayExecutors = ae.executors;
 exports.keyExecutors = ke.executors;
 exports.valueExecutors = ve.executors;
-__export(require("./common"));
-__export(require("./select"));
-__export(require("./transform"));
-__export(require("./st"));
+__exportStar(require("./common"), exports);
+__exportStar(require("./select"), exports);
+__exportStar(require("./transform"), exports);
+__exportStar(require("./st"), exports);
 
-},{"./array-executors":3,"./common":4,"./key-executors":11,"./select":17,"./st":18,"./transform":19,"./value-executors":21}],7:[function(require,module,exports){
+},{"./array-executors":4,"./common":5,"./key-executors":12,"./select":19,"./st":20,"./transform":21,"./value-executors":23}],8:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -560,6 +598,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Concat = void 0;
 var internal_1 = require("../internal");
 var Concat = /** @class */ (function () {
     function Concat() {
@@ -611,13 +650,14 @@ var Concat = /** @class */ (function () {
 }());
 exports.Concat = Concat;
 
-},{"../internal":6}],8:[function(require,module,exports){
+},{"../internal":7}],9:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -649,6 +689,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Each = void 0;
 var internal_1 = require("../internal");
 var Each = /** @class */ (function () {
     function Each() {
@@ -807,13 +848,14 @@ var Each = /** @class */ (function () {
 }());
 exports.Each = Each;
 
-},{"../internal":6}],9:[function(require,module,exports){
+},{"../internal":7}],10:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -845,6 +887,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Flatten = void 0;
 var internal_1 = require("../internal");
 var Flatten = /** @class */ (function () {
     function Flatten() {
@@ -912,13 +955,14 @@ var Flatten = /** @class */ (function () {
 }());
 exports.Flatten = Flatten;
 
-},{"../internal":6}],10:[function(require,module,exports){
+},{"../internal":7}],11:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -949,7 +993,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 exports.__esModule = true;
+exports.For = void 0;
 var internal_1 = require("../internal");
 var For = /** @class */ (function () {
     function For() {
@@ -964,10 +1014,10 @@ var For = /** @class */ (function () {
     };
     For.prototype.execute = function (template, data, ts, key, result) {
         return __awaiter(this, void 0, void 0, function () {
-            var fun, dataArray, err, promises, d, _loop_1, k, _a, _b, _c, _d, _e;
+            var fun, dataArray, err, promises, d, _loop_1, k, _a, _b, _c, _d;
             var _this = this;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
                         fun = internal_1.Helper.tokenize(key);
                         dataArray = internal_1.Helper.fillout('{{' + fun.expression + '}}', data, true);
@@ -1029,9 +1079,9 @@ var For = /** @class */ (function () {
                         }
                         _b = (_a = Object.assign).apply;
                         _c = [Object];
-                        _e = (_d = [{}]).concat;
+                        _d = [[{}]];
                         return [4 /*yield*/, Promise.all(promises)];
-                    case 1: return [2 /*return*/, _b.apply(_a, _c.concat([_e.apply(_d, [(_f.sent())])]))];
+                    case 1: return [2 /*return*/, _b.apply(_a, _c.concat([__spreadArray.apply(void 0, _d.concat([(_e.sent())]))]))];
                 }
             });
         });
@@ -1107,9 +1157,21 @@ var For = /** @class */ (function () {
 }());
 exports.For = For;
 
-},{"../internal":6}],11:[function(require,module,exports){
+},{"../internal":7}],12:[function(require,module,exports){
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 exports.__esModule = true;
+exports.executors = void 0;
+__exportStar(require("./key-executor"), exports);
 var concat_1 = require("./concat");
 var each_1 = require("./each");
 var flatten_1 = require("./flatten");
@@ -1134,13 +1196,16 @@ exports.executors = [
     new unwrap_1.Unwrap(),
 ];
 
-},{"./concat":7,"./each":8,"./flatten":9,"./for":10,"./let":12,"./lets":13,"./merge":14,"./optional":15,"./unwrap":16}],12:[function(require,module,exports){
+},{"./concat":8,"./each":9,"./flatten":10,"./for":11,"./key-executor":13,"./let":14,"./lets":15,"./merge":16,"./optional":17,"./unwrap":18}],13:[function(require,module,exports){
+arguments[4][2][0].apply(exports,arguments)
+},{"dup":2}],14:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -1172,6 +1237,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Let = void 0;
 var internal_1 = require("../internal");
 var Let = /** @class */ (function () {
     function Let() {
@@ -1268,13 +1334,14 @@ var Let = /** @class */ (function () {
 }());
 exports.Let = Let;
 
-},{"../internal":6}],13:[function(require,module,exports){
+},{"../internal":7}],15:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -1306,6 +1373,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Lets = void 0;
 var internal_1 = require("../internal");
 var Lets = /** @class */ (function () {
     function Lets() {
@@ -1412,13 +1480,14 @@ var Lets = /** @class */ (function () {
 }());
 exports.Lets = Lets;
 
-},{"../internal":6}],14:[function(require,module,exports){
+},{"../internal":7}],16:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -1449,7 +1518,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 exports.__esModule = true;
+exports.Merge = void 0;
 var internal_1 = require("../internal");
 var Merge = /** @class */ (function () {
     function Merge() {
@@ -1492,9 +1567,9 @@ var Merge = /** @class */ (function () {
     };
     Merge.prototype.execute = function (template, data, ts, key, result) {
         return __awaiter(this, void 0, void 0, function () {
-            var err, promises, _i, _a, item, _b, _c, _d, _e, _f;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
+            var err, promises, _i, _a, item, _b, _c, _d, _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0:
                         if (!internal_1.Helper.isArray(template[key])) {
                             err = internal_1.ST_ERRORS.format;
@@ -1510,10 +1585,10 @@ var Merge = /** @class */ (function () {
                         }
                         _c = (_b = Object.assign).apply;
                         _d = [Object];
-                        _f = (_e = [result]).concat;
+                        _e = [[result]];
                         return [4 /*yield*/, Promise.all(promises)];
                     case 1:
-                        _c.apply(_b, _d.concat([_f.apply(_e, [(_g.sent())])]));
+                        _c.apply(_b, _d.concat([__spreadArray.apply(void 0, _e.concat([(_f.sent())]))]));
                         // clean up $index from the result
                         // necessary because #merge merges multiple objects into one,
                         // and one of them may be 'this', in which case the $index attribute
@@ -1530,13 +1605,14 @@ var Merge = /** @class */ (function () {
 }());
 exports.Merge = Merge;
 
-},{"../internal":6}],15:[function(require,module,exports){
+},{"../internal":7}],17:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -1568,6 +1644,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Optional = void 0;
 var internal_1 = require("../internal");
 var Optional = /** @class */ (function () {
     function Optional() {
@@ -1629,13 +1706,14 @@ var Optional = /** @class */ (function () {
 }());
 exports.Optional = Optional;
 
-},{"../internal":6}],16:[function(require,module,exports){
+},{"../internal":7}],18:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -1667,6 +1745,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Unwrap = void 0;
 var internal_1 = require("../internal");
 var Unwrap = /** @class */ (function () {
     function Unwrap() {
@@ -1735,13 +1814,14 @@ var Unwrap = /** @class */ (function () {
 }());
 exports.Unwrap = Unwrap;
 
-},{"../internal":6}],17:[function(require,module,exports){
+},{"../internal":7}],19:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -1773,6 +1853,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Select = void 0;
 var internal_1 = require("./internal");
 var Select = /** @class */ (function () {
     function Select(st, sync) {
@@ -2273,13 +2354,14 @@ var Select = /** @class */ (function () {
 }());
 exports.Select = Select;
 
-},{"./internal":6}],18:[function(require,module,exports){
+},{"./internal":7}],20:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -2311,6 +2393,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.SelectTransform = void 0;
 var internal_1 = require("./internal");
 /**
  * Select-Transform class
@@ -2398,13 +2481,14 @@ var SelectTransform = /** @class */ (function () {
 }());
 exports.SelectTransform = SelectTransform;
 
-},{"./internal":6}],19:[function(require,module,exports){
+},{"./internal":7}],21:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -2436,6 +2520,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Transform = void 0;
 var internal_1 = require("./internal");
 var Transform = /** @class */ (function () {
     function Transform(select, st, sync) {
@@ -2520,9 +2605,18 @@ var Transform = /** @class */ (function () {
                         }
                     }
                     if (!executed) {
-                        var err = internal_1.ST_ERRORS.format;
-                        err.message += "- " + key + " (No executor found)";
-                        throw err;
+                        try {
+                            var newKey = internal_1.Helper.fillout(key, data, false, this.st.keepTemplate);
+                            var newValue = this.runSync(template[key], data);
+                            if (newKey in result) {
+                                throwDuplicateKeyError(newKey);
+                            }
+                            result[newKey] = newValue;
+                        }
+                        catch (error) {
+                            error.message += " -- " + key;
+                            throw error;
+                        }
                     }
                 }
                 catch (error) {
@@ -2619,11 +2713,11 @@ var Transform = /** @class */ (function () {
                             promises.push(
                             // tslint:disable-next-line: ter-arrow-parens
                             new Promise(function (res) { return __awaiter(_this, void 0, void 0, function () {
-                                var _a, _b, _i, keyExecutors_2, executor, err, error_3;
+                                var _a, _b, _i, keyExecutors_2, executor, newKey, newValue, error_3, error_4;
                                 return __generator(this, function (_c) {
                                     switch (_c.label) {
                                         case 0:
-                                            _c.trys.push([0, 7, , 8]);
+                                            _c.trys.push([0, 10, , 11]);
                                             if (!!internal_1.Helper.isTemplate(key)) return [3 /*break*/, 2];
                                             _a = result;
                                             _b = key;
@@ -2650,16 +2744,29 @@ var Transform = /** @class */ (function () {
                                             _i++;
                                             return [3 /*break*/, 3];
                                         case 6:
-                                            err = internal_1.ST_ERRORS.format;
-                                            err.message += "- " + key + " (No executor found)";
-                                            throw err;
+                                            _c.trys.push([6, 8, , 9]);
+                                            newKey = internal_1.Helper.fillout(key, data, false, this.st.keepTemplate);
+                                            return [4 /*yield*/, this.run(template[key], data)];
                                         case 7:
+                                            newValue = _c.sent();
+                                            if (newKey in result) {
+                                                throwDuplicateKeyError(newKey);
+                                            }
+                                            result[newKey] = newValue;
+                                            res();
+                                            return [2 /*return*/];
+                                        case 8:
                                             error_3 = _c.sent();
+                                            error_3.message += " -- " + key;
+                                            throw error_3;
+                                        case 9: return [3 /*break*/, 11];
+                                        case 10:
+                                            error_4 = _c.sent();
                                             if (!this.st.keepTemplate)
-                                                throw error_3;
+                                                throw error_4;
                                             result[key] = template[key];
-                                            return [3 /*break*/, 8];
-                                        case 8: return [2 /*return*/];
+                                            return [3 /*break*/, 11];
+                                        case 11: return [2 /*return*/];
                                     }
                                 });
                             }); }));
@@ -2682,14 +2789,19 @@ var Transform = /** @class */ (function () {
     return Transform;
 }());
 exports.Transform = Transform;
+function throwDuplicateKeyError(newKey) {
+    throw new Error("While replacing a templated key in object, found that " +
+        ("the target key already exists. -- resolved key: " + newKey));
+}
 
-},{"./internal":6}],20:[function(require,module,exports){
+},{"./internal":7}],22:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -2721,6 +2833,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Include = void 0;
 var internal_1 = require("../internal");
 var Include = /** @class */ (function () {
     function Include() {
@@ -2762,9 +2875,21 @@ var Include = /** @class */ (function () {
 }());
 exports.Include = Include;
 
-},{"../internal":6}],21:[function(require,module,exports){
+},{"../internal":7}],23:[function(require,module,exports){
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 exports.__esModule = true;
+exports.executors = void 0;
+__exportStar(require("./value-executor"), exports);
 var template_1 = require("./template");
 var include_1 = require("./include");
 var ternary_1 = require("./ternary");
@@ -2777,13 +2902,14 @@ exports.executors = [
     new ternary_1.Ternary(),
 ];
 
-},{"./include":20,"./template":22,"./ternary":23}],22:[function(require,module,exports){
+},{"./include":22,"./template":24,"./ternary":25,"./value-executor":26}],24:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -2815,6 +2941,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Template = void 0;
 var internal_1 = require("../internal");
 var Template = /** @class */ (function () {
     function Template() {
@@ -2851,13 +2978,14 @@ var Template = /** @class */ (function () {
 }());
 exports.Template = Template;
 
-},{"../internal":6}],23:[function(require,module,exports){
+},{"../internal":7}],25:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -2889,6 +3017,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.Ternary = void 0;
 var internal_1 = require("../internal");
 var Ternary = /** @class */ (function () {
     function Ternary() {
@@ -2942,4 +3071,6 @@ var Ternary = /** @class */ (function () {
 }());
 exports.Ternary = Ternary;
 
-},{"../internal":6}]},{},[1]);
+},{"../internal":7}],26:[function(require,module,exports){
+arguments[4][2][0].apply(exports,arguments)
+},{"dup":2}]},{},[1]);
