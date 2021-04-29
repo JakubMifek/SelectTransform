@@ -116,9 +116,17 @@ export class Transform {
           }
 
           if (!executed) {
-            const err = ST_ERRORS.format;
-            err.message += `- ${key} (No executor found)`;
-            throw err;
+            try {
+              const newKey = Helper.fillout(key, data, false, this.st.keepTemplate);
+              const newValue = this.runSync(template[key], data);
+              if (newKey in (result as Object)) {
+                throwDuplicateKeyError(newKey);
+              }
+              result[newKey] = newValue;
+            } catch (error) {
+              error.message += ` -- ${key}`;
+              throw error;
+            }
           }
         } catch (error) {
           if (!this.st.keepTemplate) throw error;
@@ -234,9 +242,19 @@ export class Transform {
                 }
               }
 
-              const err = ST_ERRORS.format;
-              err.message += `- ${key} (No executor found)`;
-              throw err;
+              try {
+                const newKey = Helper.fillout(key, data, false, this.st.keepTemplate);
+                const newValue = await this.run(template[key], data);
+                if (newKey in (result as Object)) {
+                  throwDuplicateKeyError(newKey);
+                }
+                result[newKey] = newValue;
+                res();
+                return;
+              } catch (error) {
+                error.message += ` -- ${key}`;
+                throw error;
+              }
             } catch (error) {
               if (!this.st.keepTemplate) throw error;
               result[key] = template[key];
@@ -252,4 +270,9 @@ export class Transform {
     }
     return result;
   }
+}
+
+function throwDuplicateKeyError(newKey: string) {
+  throw new Error(`While replacing a templated key in object, found that `+
+    `the target key already exists. -- resolved key: ${newKey}`);
 }
