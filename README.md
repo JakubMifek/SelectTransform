@@ -12,6 +12,9 @@ JSON template may contain special readable notation describing how to transform 
 
 `npm i selecttransform`
 
+## Questions?
+This package has deviated a bit from the original implementation and has numerous additional features. If you would like to contribute, join the development, help us maintain the repository or just some questions about the usage, reach out to us on our community server: https://discord.gg/eNVm2N24
+
 ## Example Usage
 
 ### JavaScript
