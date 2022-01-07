@@ -22,11 +22,11 @@ export class Ternary implements ValueExecutor {
   executeSync(template: string, data: DataObject, ts: Transform): DataObject {
     const fun = Helper.tokenize(template);
     const filled = Helper.fillout(`{{${fun.expression}}}`, data, false, true);
-    if (!filled || filled === `{{${fun.expression}}}`) {
+    if (filled === undefined || filled === `{{${fun.expression}}}`) {
       // case 1.
       // not parsed, which means the evaluation failed.
       // case 2.
-      // returns fasly value
+      // returns undefined value
       // both cases mean this key should be excluded
     } else {
       // only include if the evaluation is truthy

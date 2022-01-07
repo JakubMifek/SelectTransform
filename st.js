@@ -3033,11 +3033,11 @@ var Ternary = /** @class */ (function () {
     Ternary.prototype.executeSync = function (template, data, ts) {
         var fun = internal_1.Helper.tokenize(template);
         var filled = internal_1.Helper.fillout("{{" + fun.expression + "}}", data, false, true);
-        if (!filled || filled === "{{" + fun.expression + "}}") {
+        if (filled === undefined || filled === "{{" + fun.expression + "}}") {
             // case 1.
             // not parsed, which means the evaluation failed.
             // case 2.
-            // returns fasly value
+            // returns undefined value
             // both cases mean this key should be excluded
         }
         else {
